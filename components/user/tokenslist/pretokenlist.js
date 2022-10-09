@@ -49,15 +49,16 @@ function Pretokenlist({ set }) {
             ensure that it{"’"}s sent directly from the token creator address.
           </Text>
           <Text fontSize="1.2em" fontweight="medium" mt="5">
-            Listings with more than 250 votes will appear on “Today's Best”.
-            AsaFinder has the right to remove any project for any given reason,
-            or remove any votes if we think these were illegitimate.
+            Listings with more than 250 votes will appear on &apos;Today&apos;s
+            Best&apos;. AsaFinder has the right to remove any project for any
+            given reason, or remove any votes if we think these were
+            illegitimate.
           </Text>
           <Text fontSize="1.2em" fontweight="medium" mt="5">
             Only project developers can submit their token using the submission
             form on our website. We do not endorse or check the authenticity of
-            this information, but we{"’"}ll try and make sure it{"’"}s added by
-            the project developer.
+            this information, but we&apos;ll try and make sure it&apos;s added
+            by the project developer.
           </Text>
           <Text fontSize="1.2em" fontweight="medium" mt="5" mb="5">
             If you see any incorrect information on AsaFinder please contact us
