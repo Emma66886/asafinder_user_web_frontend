@@ -7,10 +7,10 @@ import Link from "next/link";
 function Userprofile() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
-  const token = localStorage.getItem("logintoken")
-    ? localStorage.getItem("logintoken")
-    : sessionStorage.getItem("logintoken");
   useEffect(() => {
+    const token = localStorage.getItem("logintoken")
+      ? localStorage.getItem("logintoken")
+      : sessionStorage.getItem("logintoken");
     axios({
       url: `${process.env.BACKEND_URL}api/auth/profile`,
       method: "GET",

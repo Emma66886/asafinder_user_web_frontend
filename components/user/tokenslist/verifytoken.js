@@ -11,9 +11,9 @@ function Verifytoken({ set }) {
   const [tokenAsa, setTokenAsa] = useState("");
   const [creatorsAddr, setCreatorsAddr] = useState("");
   const [txId, setTxId] = useState("");
-  const auth =
-    localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
   const submitForm = async () => {
+    const auth =
+      localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
     setError("");
     setIsRequesting(true);
     try {
@@ -88,7 +88,7 @@ function Verifytoken({ set }) {
         </label>
         <label style={{ color: "#fff", fontSize: "1.1em" }}>
           {" "}
-          Token Creator's Address
+          Token Creator&apos;s Address
           <Input
             bg="#fff"
             onChange={(e) => setCreatorsAddr(e.target.value)}
@@ -97,7 +97,7 @@ function Verifytoken({ set }) {
           />
         </label>
         <Box w="100%">
-          <Text>Send '0' transaction to this address </Text>
+          <Text>Send &apos;0&apos; transaction to this address </Text>
           <Box bg="#111621" w="100%" p="5" borderRadius="10px" display="flex">
             <Text flex="10">
               TYJNWYTU47LV4KAGVXGHOZVWSINDX3NHWGGIVUYBFCXGSVBL2SKSYWVIXI

@@ -28,12 +28,12 @@ function MyTokenList({ set }) {
   const [requesting, isRequesting] = useState(false);
 
   //----------------------------Error--------------------------
-  const auth =
-    localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
   // console.log(auth);
   let formData = new FormData();
   const [error, setError] = useState("");
   const submitForm = async () => {
+    const auth =
+      localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
     isRequesting((r) => true);
     let errors = [];
     if (tokenName === "") errors = [...errors, "Token Name"];

@@ -96,7 +96,9 @@ export default function RendersearchandReapeter({ tokens }) {
       )}
       {!isLargerThan700 && (
         <InputGroup borderRadius="28px" height="49px" width="80%">
-          <InputRightElement children={<SearchIcon color="#ffffff" />} />
+          <InputRightElement>
+            <SearchIcon color="#ffffff" />
+          </InputRightElement>
           <Input
             border="0"
             background="#222B3E"
@@ -123,8 +125,8 @@ export default function RendersearchandReapeter({ tokens }) {
         what you need check them below.
       </Box>
 
-      {updatedTokens.map((item) => (
-        <Tokensaboutrepeater item={item} />
+      {updatedTokens.map((item, index) => (
+        <Tokensaboutrepeater key={index + "renderer"} item={item} />
       ))}
       <Pagnation
         startPostIndex={1}
@@ -150,7 +152,7 @@ export default function RendersearchandReapeter({ tokens }) {
           fontSize="22px"
           lineHeight="33px"
         >
-          Can't find your Token?
+          Can&apos;t find your Token?
         </Text>
         <Text
           textAlign="center"
