@@ -4,6 +4,7 @@ import Image from "next/image";
 import profiledemo from "../../assets/profiledemo.PNG";
 import axios from "axios";
 import Link from "next/link";
+import { backendurl } from "../utils/apihelpers";
 function Userprofile() {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
@@ -12,7 +13,7 @@ function Userprofile() {
       ? localStorage.getItem("logintoken")
       : sessionStorage.getItem("logintoken");
     axios({
-      url: `${process.env.BACKEND_URL}api/auth/profile`,
+      url: `${backendurl}api/auth/profile`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

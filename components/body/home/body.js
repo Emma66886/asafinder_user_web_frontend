@@ -5,11 +5,12 @@ import blockchainImg from "../../../assets/desktopbodypic1.PNG";
 import RendersearchandReapeter from "./searchandtokensrepeater/renderer";
 import Image from "next/image";
 import axios from "axios";
+import { backendurl } from "../../utils/apihelpers";
 export default function Homebody() {
   const [tokens, setTokens] = useState([]);
   useEffect(() => {
     axios
-      .get(process.env.BACKEND_URL + "api/coins")
+      .get(backendurl + "api/coins")
       .then((re) => {
         console.log(re.data.data);
         setTokens((v) => re.data.data);

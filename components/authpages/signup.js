@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { backendurl } from "../utils/apihelpers";
 function Signup() {
   const [userName, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -43,7 +44,7 @@ function Signup() {
 
     axios({
       method: "post",
-      url: process.env.BACKEND_URL + "api/auth/register",
+      url: backendurl + "api/auth/register",
       data: {
         firstname: firstname.toLowerCase(),
         username: userName.toLowerCase(),

@@ -11,6 +11,7 @@ import React, { useContext, useState } from "react";
 import { LoggedinContext } from "../../contexts/loginctx";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { backendurl } from "../utils/apihelpers";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +27,7 @@ function Login() {
     else setError("");
     axios({
       method: "post",
-      url: process.env.BACKEND_URL + "api/auth/login",
+      url: backendurl + "api/auth/login",
       headers: { Authorization: `Bearer ${process.env.REACT_APP_AUTH}` },
       data: {
         password: password,

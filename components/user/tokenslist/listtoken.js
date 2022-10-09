@@ -8,6 +8,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { backendurl } from "../../utils/apihelpers";
 
 function MyTokenList({ set }) {
   const fileinputref = useRef();
@@ -33,7 +34,8 @@ function MyTokenList({ set }) {
   const [error, setError] = useState("");
   const submitForm = async () => {
     const auth =
-      localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
+      localStorage.getItem("logintoken") ||
+      sessionStorage.getItem("logintoken");
     isRequesting((r) => true);
     let errors = [];
     if (tokenName === "") errors = [...errors, "Token Name"];
@@ -71,7 +73,7 @@ function MyTokenList({ set }) {
         token_contract_address: tokenAsa,
       };
       console.log(data);
-      const fetchUrl = `${process.env.BACKEND_URL}api/coins/new`;
+      const fetchUrl = `${backendurl}api/coins/new`;
       const uploadData = await axios({
         url: fetchUrl,
         headers: {

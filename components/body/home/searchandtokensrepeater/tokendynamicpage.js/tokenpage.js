@@ -9,6 +9,7 @@ import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { LoggedinContext } from "../../../../../contexts/loginctx";
 import { userAgent } from "next/server";
+import { backendurl } from "../../../../utils/apihelpers";
 // import router from "next/router";
 function Tokenpage({ token }) {
   const toast = useToast();
@@ -29,7 +30,7 @@ function Tokenpage({ token }) {
   const getTokenRatings = async (id) => {
     try {
       const getAllRatings = await axios.get(
-        `${process.env.BACKEND_URL}api/coins/${id || tokenDetails._id}/ratings`
+        `${backendurl}api/coins/${id || tokenDetails._id}/ratings`
       );
       if (getAllRatings.status === 200) {
         setCoinRating(getAllRatings.data.rating);
@@ -44,7 +45,7 @@ function Tokenpage({ token }) {
     try {
       const review = await axios({
         method: "get",
-        url: `${process.env.BACKEND_URL}api/coins/${
+        url: `${backendurl}api/coins/${
           id || tokenDetails._id
         }/review`,
         headers: {
@@ -66,9 +67,7 @@ function Tokenpage({ token }) {
     try {
       const review = await axios({
         method: "get",
-        url: `${process.env.BACKEND_URL}api/coins/${
-          id || tokenDetails._id
-        }/userrating`,
+        url: `${backendurl}api/coins/${id || tokenDetails._id}/userrating`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -88,7 +87,7 @@ function Tokenpage({ token }) {
     try {
       const checkStat = await axios({
         method: "get",
-        url: `${process.env.BACKEND_URL}api/coins/${
+        url: `${backendurl}api/coins/${
           id || tokenDetails._id
         }/bookmark`,
         headers: {
@@ -109,7 +108,7 @@ function Tokenpage({ token }) {
     console.log({ token });
     try {
       const tokenDetail = await axios.get(
-        `${process.env.BACKEND_URL}api/coins/getCoin?token=${token}`
+        `${backendurl}api/coins/getCoin?token=${token}`
       );
       console.log(tokenDetail.data[0]);
       const data = await getChartData(tokenDetail.data[0].token_asa);
@@ -163,7 +162,7 @@ function Tokenpage({ token }) {
     try {
       const vote = await axios({
         method: "put",
-        url: `${process.env.BACKEND_URL}api/coins/${tokenDetails._id}/vote`,
+        url: `${backendurl}api/coins/${tokenDetails._id}/vote`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -199,7 +198,7 @@ function Tokenpage({ token }) {
     try {
       const vote = await axios({
         method: "post",
-        url: `${process.env.BACKEND_URL}api/coins/${tokenDetails._id}/bookmark`,
+        url: `${backendurl}api/coins/${tokenDetails._id}/bookmark`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -234,7 +233,7 @@ function Tokenpage({ token }) {
     try {
       const initiateSubmittion = await axios({
         method: "post",
-        url: `${process.env.BACKEND_URL}api/coins/${tokenDetails._id}/review`,
+        url: `${backendurl}api/coins/${tokenDetails._id}/review`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -276,7 +275,7 @@ function Tokenpage({ token }) {
     try {
       const sendRate = await axios({
         method: "post",
-        url: `${process.env.BACKEND_URL}api/coins/${tokenDetails._id}/ratings`,
+        url: `${backendurl}api/coins/${tokenDetails._id}/ratings`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||

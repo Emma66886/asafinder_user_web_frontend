@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Text, Button, Input, useToast } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import axios from "axios";
+import { backendurl } from "../../utils/apihelpers";
 
 function Verifytoken({ set }) {
   const toast = useToast();
@@ -13,13 +14,14 @@ function Verifytoken({ set }) {
   const [txId, setTxId] = useState("");
   const submitForm = async () => {
     const auth =
-      localStorage.getItem("logintoken") || sessionStorage.getItem("logintoken");
+      localStorage.getItem("logintoken") ||
+      sessionStorage.getItem("logintoken");
     setError("");
     setIsRequesting(true);
     try {
       const submit = await axios({
         method: "post",
-        url: process.env.BACKEND_URL + "api/coins/verfication",
+        url: backendurl + "api/coins/verfication",
         headers: {
           Authorization: `Bearer ${auth},Content-Type: application/json`,
         },
