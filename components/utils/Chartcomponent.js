@@ -19,7 +19,7 @@ export default function ChartComponent(props) {
   const chartData = data?.map((v) => {
     return {
       ...v,
-      time: new Date(v.timestamp).getTime(),
+      time: v?.timestamp,
       // time: new Date(v.timestamp).getTime(),
     };
   });
