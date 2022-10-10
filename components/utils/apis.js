@@ -61,7 +61,7 @@ export async function getTokenInfo(asa_id) {
 
 export async function getChartData(token_asa) {
   try {
-    const chartData = await axios(
+    const chartData = await axios.get(
       `https://algocharts.net/api/historic-ohlc/?asset_in=${token_asa}`
     );
     console.log({ returneddsts: chartData.data.data });
