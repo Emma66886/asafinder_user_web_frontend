@@ -50,6 +50,18 @@ export async function getPricesAndTokenInfo(token_asa) {
   const token_info_data = await axios.get(``);
 }
 
+export async function getTokenInfo(asa_id) {
+  try {
+    const tokenInfo = await axios.get(
+      `https://free-api.vestige.fi/asset/${asa_id}`
+    );
+    console.log({ tokenInfo });
+    return tokenInfo.data;
+  } catch (e) {
+    return {};
+  }
+}
+
 export async function getChartData(token_asa) {
   try {
     const chartData = await axios(

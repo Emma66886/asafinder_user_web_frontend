@@ -3,7 +3,11 @@ import Mobiletokenviw from "./mobiletokenviw";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { getAllTokensData, getChartData } from "../../../../utils/apis";
+import {
+  getAllTokensData,
+  getChartData,
+  getTokenInfo,
+} from "../../../../utils/apis";
 // import { useLocation } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -24,6 +28,7 @@ function Tokenpage({ token }) {
   const [allCoinRating, setCoinRating] = useState();
   const [tokenuserRatings, setTokenUserRatings] = useState();
   const [chartData, setChartData] = useState();
+  const [tokenInfo, setTokenInfo] = useState();
   const { loggedin } = useContext(LoggedinContext);
   let stopUseEffect = useRef(false);
 
@@ -121,6 +126,9 @@ function Tokenpage({ token }) {
   };
   async function getThePrices() {
     const priceDaata = await getAllTokensData(token);
+    const gettokenInfo = await getTokenInfo(token);
+    console.log({ gettokenInfo });
+    setTokenInfo(gettokenInfo);
     console.log({ priceDaata });
     const { prices } = priceDaata;
     setAlgoPrice(parseFloat(prices?.algotokenPriceData.price).toFixed(5));
@@ -129,7 +137,6 @@ function Tokenpage({ token }) {
     setAlgoChange(
       parseFloat(prices?.usdAlgoTokenPriceData.h24change).toFixed(2)
     );
-
     // const {} = algotokenPriceData;
 
     // setAlgoChange(priceDaata)
@@ -307,6 +314,7 @@ function Tokenpage({ token }) {
           allCoinRating={allCoinRating}
           tokenuserRatings={tokenuserRatings}
           chartData={chartData}
+          tokenInfo={tokenInfo}
         />
       )}
       {!tokenDetails && <Box height="80vh" w="100vw" bg="#111621"></Box>}
@@ -327,6 +335,7 @@ function Tokenpage({ token }) {
           allCoinRating={allCoinRating}
           tokenuserRatings={tokenuserRatings}
           chartData={chartData}
+          tokenInfo={tokenInfo}
         />
       )}
     </>

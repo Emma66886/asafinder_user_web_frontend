@@ -53,6 +53,7 @@ export default function Desktoptokenview({
   allCoinRating,
   tokenuserRatings,
   chartData,
+  tokenInfo,
 }) {
   const {
     isApproved,
@@ -330,7 +331,7 @@ export default function Desktoptokenview({
             >
               <Text color="#E5E5E5">Total Supply:</Text>
               <Text color="#A1A1A1" fontSize="0.9em">
-                10,000,000.000 Tacos
+                {tokenInfo?.supply} {tokenInfo?.ticker}
               </Text>
             </Box>
             <Box
@@ -341,7 +342,7 @@ export default function Desktoptokenview({
             >
               <Text color="#E5E5E5">Circulating Supply:</Text>
               <Text color="#A1A1A1" fontSize="0.9em">
-                9,999,999.029 Tacos
+                {tokenInfo?.circulating_supply} {tokenInfo?.ticker}
               </Text>
             </Box>
             <Box
@@ -352,12 +353,17 @@ export default function Desktoptokenview({
               fontSize="1.1rem"
             >
               <Text color="#E5E5E5">Token in circulation after</Text>
-              <Text color="#fff">100.00%</Text>
+              <Text color="#fff">
+                {parseInt(
+                  (tokenInfo?.circulating_supply / tokenInfo?.supply) * 100
+                )}
+                %
+              </Text>
             </Box>
             <Progress
               colorScheme="green"
               size="md"
-              value={100}
+              value={(tokenInfo?.circulating_supply / tokenInfo?.supply) * 100}
               borderRadius="5px"
             />
           </Box>
