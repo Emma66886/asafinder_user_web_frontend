@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   getAllTokensData,
-  getChartData,
+  // getChartData,
   getTokenInfo,
 } from "../../../../utils/apis";
 // import { useLocation } from "react-router-dom";
@@ -112,8 +112,8 @@ function Tokenpage({ token }) {
         `${backendurl}api/coins/getCoin?token=${token}`
       );
       console.log(tokenDetail.data[0]);
-      const data = await getChartData(tokenDetail.data[0].token_asa);
-      setChartData(data);
+      // const data = await getChartData(tokenDetail.data[0].token_asa);
+      // setChartData(data);
       await getBookMarkStatus(tokenDetail.data[0]._id);
       await getTokenReviews(tokenDetail.data[0]._id);
       await getTokenRatings(tokenDetail.data[0]._id);

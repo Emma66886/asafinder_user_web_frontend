@@ -1,22 +1,36 @@
+import { Box, Skeleton } from "@chakra-ui/react";
 import { createChart, ColorType } from "lightweight-charts";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { getChartData } from "./apis";
 
 export default function ChartComponent(props) {
   const {
-    data,
+    token,
     colors: {
-      backgroundColor = "white",
+      backgroundColor = "black",
       lineColor = "#2962FF",
-      textColor = "black",
+      textColor = "white",
       areaTopColor = "#2962FF",
       areaBottomColor = "rgba(41, 98, 255, 0.28)",
     },
   } = props;
-  console.log({ data });
-  const chartData = data.map((v) => {
-    return { ...v, time: v.timestamp };
+  const [data, setData] = useState([]);
+  console.log({ chartdaata: data });
+  const chartData = data?.map((v) => {
+    return {
+      ...v,
+      time: new Date(v.timestamp).getTime(),
+      // time: new Date(v.timestamp).getTime(),
+    };
   });
   const chartContainerRef = useRef();
+  useEffect(() => {
+    async function getData() {
+      const chartD = await getChartData(token);
+      setData(chartD);
+    }
+    getData();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,14 +41,16 @@ export default function ChartComponent(props) {
       layout: {
         background: { type: ColorType.Solid, color: backgroundColor },
         textColor,
+        areaBottomColor,
+        areaTopColor,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 300,
+      height: 320,
     });
     chart.timeScale().fitContent();
 
-    const newSeries = chart.addCandlestickSeries();
-    newSeries.setData(chartData || [{}]);
+    chart.addCandlestickSeries().setData(chartData);
+    // newSeries?.setData(chartData);
 
     window.addEventListener("resize", handleResize);
 
@@ -43,14 +59,11 @@ export default function ChartComponent(props) {
 
       chart.remove();
     };
-  }, [
-    data,
-    backgroundColor,
-    lineColor,
-    textColor,
-    areaTopColor,
-    areaBottomColor,
-  ]);
+  }, [backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]);
 
-  return <div ref={chartContainerRef} style={{ width: "300px" }} />;
+  return (
+    // <Skeleton w="100%" h="100%" isLoaded={data.length > 0}>
+    <Box ref={chartContainerRef} w="100%" h="100%" zIndex="-1" />
+    // </Skeleton>
+  );
 }

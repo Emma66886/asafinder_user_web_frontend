@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 // import ChartComponent from "../../../../utils/Chartcomponent";
 const ChartComponent = dynamic(
-  () => import("../../../../utils/Chartcomponent"),
+  () => import("../../../../utils/Chartcomponent.js"),
   {
     ssr: false,
   }
@@ -166,7 +166,10 @@ export default function Desktoptokenview({
                   boxSize="1.5em"
                 />
               )}
-              {algochnage}
+              {algochnage}%
+              {/* <Text as="span" color="#fff">
+                %
+              </Text> */}
             </Text>
           </Box>
           <Box display="flex" justifyContent="space-between" flexDir="row">
@@ -246,10 +249,19 @@ export default function Desktoptokenview({
       </Box>
       {/* Charts */}
       <Box w="80%" display="flex" flexDir="row" gap="10" mt="10">
-        <Box w="48%" border="1px solid #fff" h="290px">
-          {chartData && chartData?.length > 0 && (
-            <ChartComponent data={chartData} colors={{}} />
-          )}
+        <Box w="48%" h="290px">
+          {/* {chartData && chartData?.length > 0 && ( */}
+          <ChartComponent
+            token={token_asa}
+            colors={{
+              backgroundColor: "black",
+              lineColor: "#2962FF",
+              textColor: "white",
+              areaTopColor: "#2962FF",
+              areaBottomColor: "rgba(41, 98, 255, 0.28)",
+            }}
+          />
+          {/* )} */}
         </Box>
         <Box w="48%" minH="250px" color="#fff" fontWeight="500">
           <Text>Socials:</Text>

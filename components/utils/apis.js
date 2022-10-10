@@ -21,13 +21,10 @@ export async function getTokenPrices(token_asa) {
       `https://free-api.vestige.fi/asset/${token_asa}/price`
     );
     const priceHist = await axios.get(
-      `https://free-api.vestige.fi/asset/${token_asa}/prices/simple/1D`
+      `https://free-api.vestige.fi/asset/${token_asa}/list`
     );
-    const h24change =
-      ((priceHist.data[0].price -
-        priceHist.data[priceHist.data.length - 1].price) /
-        priceHist.data[priceHist.data.length - 1].price) *
-      100;
+    const h24change = priceHist.data.change24h;
+
     const algotokenPriceData = { price: tokenprice.data.USD, h24change };
     const usdAlgoTokenPriceData = { price: tokenprice.data.price, h24change };
     console.log({ algotokenPriceData, usdAlgoTokenPriceData });
@@ -67,8 +64,8 @@ export async function getChartData(token_asa) {
     const chartData = await axios(
       `https://algocharts.net/api/historic-ohlc/?asset_in=${token_asa}`
     );
-    console.log(chartData.data);
-    return chartData.data;
+    console.log({ returneddsts: chartData.data.data });
+    return chartData.data.data;
   } catch (e) {
     console.log(e);
     return [];
