@@ -1,6 +1,6 @@
 import Desktoptokenview from "./desktoptokenview";
 import Mobiletokenviw from "./mobiletokenviw";
-import { useMediaQuery } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { getAllTokensData, getChartData } from "../../../../utils/apis";
@@ -45,9 +45,7 @@ function Tokenpage({ token }) {
     try {
       const review = await axios({
         method: "get",
-        url: `${backendurl}api/coins/${
-          id || tokenDetails._id
-        }/review`,
+        url: `${backendurl}api/coins/${id || tokenDetails._id}/review`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -87,9 +85,7 @@ function Tokenpage({ token }) {
     try {
       const checkStat = await axios({
         method: "get",
-        url: `${backendurl}api/coins/${
-          id || tokenDetails._id
-        }/bookmark`,
+        url: `${backendurl}api/coins/${id || tokenDetails._id}/bookmark`,
         headers: {
           Authorization: `Bearer ${
             sessionStorage?.getItem("logintoken") ||
@@ -126,8 +122,8 @@ function Tokenpage({ token }) {
   async function getThePrices() {
     const priceDaata = await getAllTokensData(token);
     console.log({ priceDaata });
-    const { history, prices } = priceDaata;
-    setAlgoChange(parseFloat(prices?.algotokenPriceData.price).toFixed(5));
+    const { prices } = priceDaata;
+    setAlgoPrice(parseFloat(prices?.algotokenPriceData.price).toFixed(5));
     setUsdcPrice(parseFloat(prices?.usdAlgoTokenPriceData.price).toFixed(5));
     setUsdcChange(prices?.algotokenPriceData.h24change);
     setAlgoChange(
@@ -313,6 +309,7 @@ function Tokenpage({ token }) {
           chartData={chartData}
         />
       )}
+      {!tokenDetails && <Box height="80vh" w="100vw" bg="#111621"></Box>}
       {tokenDetails && !isLargerThan500px && (
         <Mobiletokenviw
           voteToken={voteToken}

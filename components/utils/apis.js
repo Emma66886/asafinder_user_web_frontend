@@ -17,29 +17,20 @@ export async function getTokenHistory(token_asa) {
 }
 export async function getTokenPrices(token_asa) {
   try {
-    let algotokenPriceData = await axios(
-      `https://algocharts.net/apiv2/?asset_in=${token_asa}&asset_out=0`
+    let tokenprice = await axios.get(
+      `https://free-api.vestige.fi/asset/${token_asa}/price`
     );
-    let usdAlgoTokenPriceData = await axios(
-      `https://algocharts.net/apiv2/?asset_in=${token_asa}&asset_out=31566704`
+    const priceHist = await axios.get(
+      `https://free-api.vestige.fi/asset/${token_asa}/prices/simple/1D`
     );
-    algotokenPriceData = {
-      h24change:
-        ((algotokenPriceData.data.data[0] - algotokenPriceData.data.data[1]) /
-          algotokenPriceData.data.data[1]) *
-        100,
-      price: algotokenPriceData.data.data[0],
-    };
-    usdAlgoTokenPriceData = {
-      h24change:
-        ((usdAlgoTokenPriceData.data.data[0] -
-          usdAlgoTokenPriceData.data.data[1]) /
-          usdAlgoTokenPriceData.data.data[1]) *
-        100,
-      price: usdAlgoTokenPriceData.data.data[0],
-    };
-    // console.log();
-    // console.log({ algotokenPriceData, usdAlgoTokenPriceData });
+    const h24change =
+      ((priceHist.data[0].price -
+        priceHist.data[priceHist.data.length - 1].price) /
+        priceHist.data[priceHist.data.length - 1].price) *
+      100;
+    const algotokenPriceData = { price: tokenprice.data.USD, h24change };
+    const usdAlgoTokenPriceData = { price: tokenprice.data.price, h24change };
+    console.log({ algotokenPriceData, usdAlgoTokenPriceData });
     return { algotokenPriceData, usdAlgoTokenPriceData };
   } catch (e) {
     console.log(e);
@@ -48,7 +39,8 @@ export async function getTokenPrices(token_asa) {
 
 export async function getAllTokensData(token_asa) {
   const prices = await getTokenPrices(token_asa);
-  const history = await getTokenHistory(token_asa);
+  // const history = await getTokenHistory(token_asa);
+  const history = "";
   //   console.log({ prices, history });
   return { prices, history };
 }
