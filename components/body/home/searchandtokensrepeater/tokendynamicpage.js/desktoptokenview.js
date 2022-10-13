@@ -54,6 +54,7 @@ export default function Desktoptokenview({
   tokenuserRatings,
   chartData,
   tokenInfo,
+  votes24h,
 }) {
   const {
     isApproved,
@@ -175,6 +176,10 @@ export default function Desktoptokenview({
           <Box display="flex" justifyContent="space-between" flexDir="row">
             <Text>Vote:</Text>
             <Text>{vote}</Text>
+          </Box>
+          <Box display="flex" justifyContent="space-between" flexDir="row">
+            <Text>Daily Votes:</Text>
+            <Text>{votes24h}</Text>
           </Box>
         </Box>
         <Box display="flex" flex="1" justifyContent="flex-end">

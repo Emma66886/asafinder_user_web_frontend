@@ -29,6 +29,7 @@ function Tokenpage({ token }) {
   const [tokenuserRatings, setTokenUserRatings] = useState();
   const [chartData, setChartData] = useState();
   const [tokenInfo, setTokenInfo] = useState();
+  const [votes24h, setvotes24h] = useState();
   const { loggedin } = useContext(LoggedinContext);
   let stopUseEffect = useRef(false);
 
@@ -105,6 +106,21 @@ function Tokenpage({ token }) {
       setbookmarked(false);
     }
   };
+  const get24hrsVotes = async (id) => {
+    try {
+      const checkStat = await axios({
+        method: "get",
+        url: `${backendurl}api/coins/${id || tokenDetails._id}/votes24`,
+      });
+      if (checkStat.status === 200) {
+        console.log({ checkStat });
+        setvotes24h(checkStat.data.votesCount);
+      }
+    } catch (e) {
+      // setvotes24h(false);
+      console.log(e);
+    }
+  };
   const getTokenDetails = async () => {
     console.log({ token });
     try {
@@ -114,6 +130,7 @@ function Tokenpage({ token }) {
       console.log(tokenDetail.data[0]);
       // const data = await getChartData(tokenDetail.data[0].token_asa);
       // setChartData(data);
+      await get24hrsVotes(tokenDetail.data[0]._id);
       await getBookMarkStatus(tokenDetail.data[0]._id);
       await getTokenReviews(tokenDetail.data[0]._id);
       await getTokenRatings(tokenDetail.data[0]._id);
@@ -188,7 +205,7 @@ function Tokenpage({ token }) {
       console.log(e);
       toast({
         title: token + " voting not successful.",
-        description: "An error occured while voting " + token,
+        description: "You can only vote once in a day!",
         status: "error",
         duration: 9000,
         isClosable: true,
@@ -315,6 +332,7 @@ function Tokenpage({ token }) {
           tokenuserRatings={tokenuserRatings}
           chartData={chartData}
           tokenInfo={tokenInfo}
+          votes24h={votes24h}
         />
       )}
       {!tokenDetails && <Box height="80vh" w="100vw" bg="#111621"></Box>}
@@ -336,6 +354,7 @@ function Tokenpage({ token }) {
           tokenuserRatings={tokenuserRatings}
           chartData={chartData}
           tokenInfo={tokenInfo}
+          votes24h={votes24h}
         />
       )}
     </>

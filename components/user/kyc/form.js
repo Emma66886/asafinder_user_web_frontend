@@ -41,7 +41,6 @@ function Form() {
       setError("All fields are required");
     }
   };
-
   return (
     <Box
       w="100vw"

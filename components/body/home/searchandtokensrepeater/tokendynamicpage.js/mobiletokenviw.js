@@ -143,6 +143,7 @@ function Mobiletokenviw() {
                 </Box>
               </Box>
               <Text color="#fff">Votes: 125</Text>
+              <Text color="#fff">24h Votes: 125</Text>
             </Box>
           </Grid>
           <Box
