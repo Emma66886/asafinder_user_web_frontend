@@ -35,20 +35,34 @@ export default function ChartComponent(props) {
         areaBottomColor,
         areaTopColor,
       },
+      grid: { horzLines: { visible: false }, vertLines: { visible: false } },
       width: chartContainerRef.current.clientWidth,
       height: 320,
     });
-    if (!stopUseEffect.current) {
-      (async () => {
-        chart.timeScale().fitContent();
+    chart.timeScale().fitContent();
+
+    (async () => {
+      chart.timeScale().fitContent();
+      try {
         const chartD = await getChartData(token);
         console.log({ chartD });
-        chart.addCandlestickSeries().setData(chartD);
-      })();
-      // addCandles();
-      window.addEventListener("resize", handleResize);
-    }
-    stopUseEffect.current = true;
+        const lineSeries = chart.addLineSeries();
+        lineSeries.setData(chartD);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+    // if (!stopUseEffect.current) {
+    //   (async () => {
+    //     chart.timeScale().fitContent();
+    //     const chartD = await getChartData(token);
+    //     console.log({ chartD });
+    //     chart?.addCandlestickSeries().setData(chartD);
+    //   })();
+    // addCandles();
+    window.addEventListener("resize", handleResize);
+    // }
+    // stopUseEffect.current = true;
     return () => {
       window.removeEventListener("resize", handleResize);
 

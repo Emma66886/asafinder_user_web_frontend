@@ -62,29 +62,18 @@ export async function getTokenInfo(asa_id) {
 export async function getChartData(token_asa) {
   try {
     const chartData = await axios.get(
-      `https://algocharts.net/api/historic-ohlc/?asset_in=${token_asa}`
+      `https://free-api.vestige.fi/asset/${token_asa}/prices/simple/1D`
     );
-    console.log({ returneddsts: chartData.data.data });
-    return chartData.data.data.map((v) => {
+    console.log({ returneddsts: chartData.data });
+    return chartData.data.map((v) => {
       const year = new Date(v.timestamp).getFullYear();
       const month = new Date(v.timestamp).getMonth() + 1;
       const day = new Date(v.timestamp).getDate();
       const hour = new Date(v.timestamp).getHours();
       const min = new Date(v.timestamp).getMinutes();
       return {
-        ...v,
-        // time: (
-        //   year +
-        //   "-" +
-        //   month +
-        //   "-" +
-        //   day +
-        //   " " +
-        //   hour +
-        //   ":" +
-        //   min
-        // ).toString(),
-        time: new Date(v.timestamp).getTime(),
+        time: v.timestamp,
+        value: v.price,
       };
     });
   } catch (e) {
@@ -94,14 +83,6 @@ export async function getChartData(token_asa) {
     const day = new Date().getDate();
     const hour = new Date().getHours();
     const min = new Date().getMinutes();
-    return [
-      {
-        open: "0.30",
-        high: "0.32",
-        low: "0.30",
-        close: "0.32",
-        time: year + "-" + month + "-" + day + " " + hour + ":" + min,
-      },
-    ];
+    return [];
   }
 }
