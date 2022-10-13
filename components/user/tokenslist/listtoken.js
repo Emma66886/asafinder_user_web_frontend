@@ -134,7 +134,7 @@ function MyTokenList({ set }) {
         pb="5"
         justifyContent="center"
         alignItems="center"
-        boxShadow="0px 0px 50px 10px #c5c5c5"
+        // boxShadow="0px 0px 50px 10px #c5c5c5"
         borderRadius="10px"
         w="60vw"
       >
