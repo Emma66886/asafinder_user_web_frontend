@@ -65,9 +65,43 @@ export async function getChartData(token_asa) {
       `https://algocharts.net/api/historic-ohlc/?asset_in=${token_asa}`
     );
     console.log({ returneddsts: chartData.data.data });
-    return chartData.data.data;
+    return chartData.data.data.map((v) => {
+      const year = new Date(v.timestamp).getFullYear();
+      const month = new Date(v.timestamp).getMonth() + 1;
+      const day = new Date(v.timestamp).getDate();
+      const hour = new Date(v.timestamp).getHours();
+      const min = new Date(v.timestamp).getMinutes();
+      return {
+        ...v,
+        // time: (
+        //   year +
+        //   "-" +
+        //   month +
+        //   "-" +
+        //   day +
+        //   " " +
+        //   hour +
+        //   ":" +
+        //   min
+        // ).toString(),
+        time: new Date(v.timestamp).getTime(),
+      };
+    });
   } catch (e) {
     console.log(e);
-    return [];
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = new Date().getDate();
+    const hour = new Date().getHours();
+    const min = new Date().getMinutes();
+    return [
+      {
+        open: "0.30",
+        high: "0.32",
+        low: "0.30",
+        close: "0.32",
+        time: year + "-" + month + "-" + day + " " + hour + ":" + min,
+      },
+    ];
   }
 }

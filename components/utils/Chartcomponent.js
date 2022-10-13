@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getChartData } from "./apis";
 
 export default function ChartComponent(props) {
+  const stopUseEffect = useRef(false);
   const {
     token,
     colors: {
@@ -14,29 +15,19 @@ export default function ChartComponent(props) {
       areaBottomColor = "rgba(41, 98, 255, 0.28)",
     },
   } = props;
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      time: "2022-10-10",
+    },
+  ]);
   console.log({ chartdaata: data });
-  const chartData = data?.map((v) => {
-    return {
-      ...v,
-      // time: v?.timestamp,
-      time: new Date(v.timestamp).getTime(),
-    };
-  });
+
   const chartContainerRef = useRef();
-  useEffect(() => {
-    async function getData() {
-      const chartD = await getChartData(token);
-      setData(chartD);
-    }
-    getData();
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
       chart.applyOptions({ width: chartContainerRef.current.clientWidth });
     };
-
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: backgroundColor },
@@ -47,19 +38,30 @@ export default function ChartComponent(props) {
       width: chartContainerRef.current.clientWidth,
       height: 320,
     });
-    chart.timeScale().fitContent();
-
-    chart.addCandlestickSeries().setData(chartData);
-    // newSeries?.setData(chartData);
-
-    window.addEventListener("resize", handleResize);
-
+    if (!stopUseEffect.current) {
+      (async () => {
+        chart.timeScale().fitContent();
+        const chartD = await getChartData(token);
+        console.log({ chartD });
+        chart.addCandlestickSeries().setData(chartD);
+      })();
+      // addCandles();
+      window.addEventListener("resize", handleResize);
+    }
+    stopUseEffect.current = true;
     return () => {
       window.removeEventListener("resize", handleResize);
 
       chart.remove();
     };
-  }, [backgroundColor, lineColor, textColor, areaTopColor, areaBottomColor]);
+  }, [
+    backgroundColor,
+    lineColor,
+    textColor,
+    areaTopColor,
+    areaBottomColor,
+    data,
+  ]);
 
   return (
     // <Skeleton w="100%" h="100%" isLoaded={data.length > 0}>
