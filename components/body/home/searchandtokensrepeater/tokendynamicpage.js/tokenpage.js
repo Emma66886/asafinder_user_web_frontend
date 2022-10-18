@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { LoggedinContext } from "../../../../../contexts/loginctx";
 import { userAgent } from "next/server";
 import { backendurl } from "../../../../utils/apihelpers";
+import Captcha from "../../../../lightbox/Captcha";
 // import router from "next/router";
 function Tokenpage({ token }) {
   const toast = useToast();
@@ -30,6 +31,7 @@ function Tokenpage({ token }) {
   const [chartData, setChartData] = useState();
   const [tokenInfo, setTokenInfo] = useState();
   const [votes24h, setvotes24h] = useState();
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const { loggedin } = useContext(LoggedinContext);
   let stopUseEffect = useRef(false);
 
@@ -177,40 +179,41 @@ function Tokenpage({ token }) {
   };
   const { push } = useRouter();
   const voteToken = async () => {
-    if (!loggedin) return push("/login");
-    console.log({ tokenDetails });
-    try {
-      const vote = await axios({
-        method: "put",
-        url: `${backendurl}api/coins/${tokenDetails._id}/vote`,
-        headers: {
-          Authorization: `Bearer ${
-            sessionStorage?.getItem("logintoken") ||
-            localStorage?.getItem("logintoken")
-          }`,
-        },
-      });
-      if (vote.status === 200) {
-        console.log(vote.data);
-        await getTokenDetails();
-        toast({
-          title: token + " voting successful.",
-          description: "You have successfully voted " + token,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      toast({
-        title: token + " voting not successful.",
-        description: "You can only vote once in a day!",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
+    setShowCaptcha(true);
+    // if (!loggedin) return push("/login");
+    // console.log({ tokenDetails });
+    // try {
+    //   const vote = await axios({
+    //     method: "put",
+    //     url: `${backendurl}api/coins/${tokenDetails._id}/vote`,
+    //     headers: {
+    //       Authorization: `Bearer ${
+    //         sessionStorage?.getItem("logintoken") ||
+    //         localStorage?.getItem("logintoken")
+    //       }`,
+    //     },
+    //   });
+    //   if (vote.status === 200) {
+    //     console.log(vote.data);
+    //     await getTokenDetails();
+    //     toast({
+    //       title: token + " voting successful.",
+    //       description: "You have successfully voted " + token,
+    //       status: "success",
+    //       duration: 9000,
+    //       isClosable: true,
+    //     });
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    //   toast({
+    //     title: token + " voting not successful.",
+    //     description: "You can only vote once in a day!",
+    //     status: "error",
+    //     duration: 9000,
+    //     isClosable: true,
+    //   });
+    // }
   };
   const bookmark = async () => {
     if (!loggedin) return push("/login");
@@ -356,6 +359,30 @@ function Tokenpage({ token }) {
           tokenInfo={tokenInfo}
           votes24h={votes24h}
         />
+      )}
+      {showCaptcha && (
+        <Box
+          w="100vw"
+          h="100vh"
+          position="fixed"
+          bg="#00000080"
+          zIndex={1000}
+          inset="0"
+          diplay="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box
+            h="200px"
+            w="500px"
+            inset="25% 30%"
+            borderRadius="10px"
+            position="fixed"
+            bg="#fff"
+          >
+            <Captcha />
+          </Box>
+        </Box>
       )}
     </>
   );

@@ -148,7 +148,9 @@ function Login() {
         mb="2"
         color="#B0ADAD"
         width="80%"
+        cursor="pointer"
         textAlign="center"
+        onClick={(e) => navigate("/signup")}
       >
         Don{"'"}t have an account?
       </Text>

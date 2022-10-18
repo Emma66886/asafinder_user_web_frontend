@@ -9,6 +9,10 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { backendurl } from "../../utils/apihelpers";
+import uploadimg from "../../../assets/uploadimg.png";
+import Image from "next/image";
+import Partnerships from "./Partnerships";
+import Categories from "./Categories";
 
 function MyTokenList({ set }) {
   const fileinputref = useRef();
@@ -25,8 +29,12 @@ function MyTokenList({ set }) {
   const [tokenTelegramUrl, setTokenTelegramUrl] = useState("");
   const [tokenDiscordUrl, setTokenDiscordUrl] = useState("");
   const [tokenTwitterUrl, setTokenTwitterUrl] = useState("");
+  const [tokenRole, setTokenRole] = useState("");
   const [tokenLogo, setTOkenLogo] = useState();
+  const [tokenLogoname, setTokenLogoName] = useState();
   const [requesting, isRequesting] = useState(false);
+  const [partner, setPartner] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   //----------------------------Error--------------------------
   // console.log(auth);
@@ -71,6 +79,10 @@ function MyTokenList({ set }) {
         token_discord_url: tokenDiscordUrl,
         photos: tokenLogo,
         token_contract_address: tokenAsa,
+        token_role: tokenRole,
+        token_categories: categories,
+        token_partnerships: partner,
+        token_type: tokenNetwork,
       };
       console.log(data);
       const fetchUrl = `${backendurl}api/coins/new`;
@@ -113,6 +125,7 @@ function MyTokenList({ set }) {
       reader.onloadend = () => {
         // stateupdate(reader.result);
         setTOkenLogo(reader.result);
+        setTokenLogoName(file?.name);
         console.log(reader.result);
       };
     }
@@ -139,9 +152,9 @@ function MyTokenList({ set }) {
         w="60vw"
       >
         <Text
-          fontSize="22px"
+          fontSize="2rem"
           fontFamily="Poppins"
-          fontWeight="600px"
+          fontWeight="800px"
           lineHeight="33px"
           color="#45AC75"
         >
@@ -224,14 +237,62 @@ function MyTokenList({ set }) {
             />
           </label>
           <label color="#fff" style={{ width: "80%", color: "#fff" }}>
-            Upload Logo
+            Token Role
             <Input
+              value={tokenRole}
+              isRequired
+              onChange={(e) => setTokenRole(e.target.value)}
+              placeholder="Token Role"
+              bg="#fff"
+              h="50px"
+              fontWeight="500"
+              fontFamily="Poppins"
+              fontSize="18px"
+              lineHeight="27px"
+              color="#B0ADAD"
+              borderRadius="4px"
+            />
+          </label>
+          <Partnerships partner={partner} setPartner={setPartner} />
+          <Categories setCategories={setCategories} />
+          <label
+            color="#fff"
+            position="relative"
+            style={{
+              width: "80%",
+              background: "#fff",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "15px 0px",
+              flexDirection: "column",
+              gap: "5px",
+              cursor: "pointer",
+              borderRadius: "4px",
+              _hover: {
+                background: "#c5c5c5",
+              },
+            }}
+          >
+            <Image
+              src={tokenLogo || uploadimg}
+              height="50px"
+              width="50px"
+              objectFit="fill"
+              // style={{ position: "relative" }}
+            />
+            <Text fontFamily="Poppins" fontSize="medium">
+              {tokenLogoname || "Upload Image"}
+            </Text>
+            <Input
+              position="absolute"
               ref={fileinputref}
               onChange={uploadImage}
               mb="5"
               isRequired
               accept="image/*"
               placeholder="Choose an Image"
+              opacity="0"
               type="file"
               fontWeight="500"
               fontFamily="Poppins"

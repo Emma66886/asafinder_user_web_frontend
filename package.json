@@ -21,6 +21,8 @@
     "next-transpile-modules": "^9.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-google-recaptcha-v3": "^1.10.0",
+    "react-recaptcha-x": "^1.1.14",
     "react-router-dom": "^6.4.0",
     "react-social-icons": "^5.14.0"
   },

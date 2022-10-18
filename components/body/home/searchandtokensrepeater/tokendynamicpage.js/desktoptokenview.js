@@ -77,6 +77,10 @@ export default function Desktoptokenview({
     token_youtube_url,
     vote,
     token_pinterest_url,
+    token_role,
+    token_categories,
+    token_partnerships,
+    token_type,
   } = tokenDetails;
   const [myrate, setMyRate] = useState(tokenuserRatings || 0);
   const myRatings = (val) => {
@@ -408,7 +412,7 @@ export default function Desktoptokenview({
           >
             <Text color="#E5E5E5">Token Role:</Text>
             <Text fontSize="0.9em" color="#A1A1A1">
-              Payment/Rewards
+              {token_role || "Not Available"}
             </Text>
           </Box>
           <Box
@@ -419,7 +423,7 @@ export default function Desktoptokenview({
           >
             <Text color="#E5E5E5">Categories:</Text>
             <Text fontSize="0.9em" color="#A1A1A1">
-              None
+              {token_categories || "No Categories"}
             </Text>
           </Box>
           <Box
@@ -430,7 +434,7 @@ export default function Desktoptokenview({
           >
             <Text color="#E5E5E5">Partnership:</Text>
             <Text fontSize="0.9em" color="#A1A1A1">
-              None
+              {token_partnerships || "None"}
             </Text>
           </Box>
           <Box
@@ -441,7 +445,7 @@ export default function Desktoptokenview({
           >
             <Text color="#E5E5E5">Token Type:</Text>
             <Text fontSize="0.9em" color="#A1A1A1">
-              Algorand ASA
+              {token_type || "None"}
             </Text>
           </Box>
           <Box display="flex" flexWrap="wrap" fontSize="1.1rem">
