@@ -214,6 +214,9 @@ function Tokenpage({ token }) {
       });
     }
   };
+  const closeLighBox = async () => {
+    setShowCaptcha(false);
+  };
   const voteToken = async () => {
     if (!loggedin) return push("/login");
     setShowCaptcha(true);
@@ -383,7 +386,7 @@ function Tokenpage({ token }) {
             position="fixed"
             bg="#fff"
           >
-            <Captcha captchaFunc={captchaFunc} />
+            <Captcha captchaFunc={captchaFunc} closeLighBox={closeLighBox} />
           </Box>
         </Box>
       )}
