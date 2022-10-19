@@ -178,42 +178,45 @@ function Tokenpage({ token }) {
     });
   };
   const { push } = useRouter();
+  const captchaFunc = async (id) => {
+    console.log({ tokenDetails });
+    try {
+      const vote = await axios({
+        method: "put",
+        url: `${backendurl}api/coins/${tokenDetails._id}/vote`,
+        data: { reapchaId: id },
+        headers: {
+          Authorization: `Bearer ${
+            sessionStorage?.getItem("logintoken") ||
+            localStorage?.getItem("logintoken")
+          }`,
+        },
+      });
+      if (vote.status === 200) {
+        console.log(vote.data);
+        await getTokenDetails();
+        toast({
+          title: token + " voting successful.",
+          description: "You have successfully voted " + token,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: token + " voting not successful.",
+        description: "You can only vote once in a day!",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
   const voteToken = async () => {
+    if (!loggedin) return push("/login");
     setShowCaptcha(true);
-    // if (!loggedin) return push("/login");
-    // console.log({ tokenDetails });
-    // try {
-    //   const vote = await axios({
-    //     method: "put",
-    //     url: `${backendurl}api/coins/${tokenDetails._id}/vote`,
-    //     headers: {
-    //       Authorization: `Bearer ${
-    //         sessionStorage?.getItem("logintoken") ||
-    //         localStorage?.getItem("logintoken")
-    //       }`,
-    //     },
-    //   });
-    //   if (vote.status === 200) {
-    //     console.log(vote.data);
-    //     await getTokenDetails();
-    //     toast({
-    //       title: token + " voting successful.",
-    //       description: "You have successfully voted " + token,
-    //       status: "success",
-    //       duration: 9000,
-    //       isClosable: true,
-    //     });
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    //   toast({
-    //     title: token + " voting not successful.",
-    //     description: "You can only vote once in a day!",
-    //     status: "error",
-    //     duration: 9000,
-    //     isClosable: true,
-    //   });
-    // }
   };
   const bookmark = async () => {
     if (!loggedin) return push("/login");
@@ -380,7 +383,7 @@ function Tokenpage({ token }) {
             position="fixed"
             bg="#fff"
           >
-            <Captcha />
+            <Captcha captchaFunc={captchaFunc} />
           </Box>
         </Box>
       )}
