@@ -8,6 +8,7 @@ import {
   Textarea,
   // Image,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { StarIcon, ArrowUpIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import Link from "next/link";
@@ -17,9 +18,66 @@ import pintimg from "../../../../../assets/pinterest.png";
 import twtimg from "../../../../../assets/twitter.png";
 import ytimg from "../../../../../assets/youtube.png";
 import fbimg from "../../../../../assets/facebook.png";
-import React from "react";
+import React, { useState, useEffect } from "react";
+const ChartComponent = dynamic(
+  () => import("../../../../utils/Chartcomponent.js"),
+  {
+    ssr: false,
+  }
+);
 
-function Mobiletokenviw() {
+function Mobiletokenviw({
+  tokenDetails,
+  copy,
+  algochnage,
+  usdcChange,
+  algoPrice,
+  usdcPrice,
+  voteToken,
+  bookmark,
+  bookmarked,
+  submitReview,
+  submitRatings,
+  tokenReview,
+  allCoinRating,
+  tokenuserRatings,
+  chartData,
+  tokenInfo,
+  votes24h,
+}) {
+  const {
+    isApproved,
+    token_asa,
+    token_contract_address,
+    token_description,
+    token_discord_url,
+    token_launch_date,
+    token_logo,
+    token_name,
+    token_network,
+    token_owner,
+    token_stage,
+    token_swap_url,
+    token_symbol,
+    token_telegram_url,
+    token_twitter_url,
+    token_website_url,
+    token_facebook_url,
+    token_youtube_url,
+    vote,
+    token_pinterest_url,
+    token_role,
+    token_categories,
+    token_partnerships,
+    token_type,
+  } = tokenDetails;
+  const [myrate, setMyRate] = useState(tokenuserRatings || 0);
+  const myRatings = (val) => {
+    setMyRate(val);
+    submitRatings(val);
+  };
+  const [commenVal, setCommentVal] = useState("");
+  useEffect(() => {}, []);
   return (
     <Box
       bg="#111621"
@@ -55,7 +113,7 @@ function Mobiletokenviw() {
                 <GridItem rowSpan="2">
                   <Image
                     borderRadius={"7px"}
-                    src="https://pbs.twimg.com/profile_images/1443915582668218380/ipdsvtYK_400x400.jpg"
+                    src={token_logo[0]}
                     height={"60px"}
                     width={"60px"}
                   />
@@ -66,7 +124,7 @@ function Mobiletokenviw() {
                   colSpan="1"
                   rowSpan="3"
                 >
-                  TacoCoin
+                  {token_name}
                   <br />
                   <Text
                     bg="#4C5C75"
@@ -75,7 +133,7 @@ function Mobiletokenviw() {
                     fontSize="0.8em"
                     textAlign="center"
                   >
-                    ASA ID
+                    {token_asa}
                   </Text>
                 </GridItem>
                 <GridItem colSpan="2" placeSelf="self-end">
@@ -87,8 +145,7 @@ function Mobiletokenviw() {
                   alignSelf="self-end"
                   placeSelf="self-end"
                 >
-                  {" "}
-                  Tacos
+                  {token_symbol}
                 </GridItem>
               </Grid>
             </GridItem>
@@ -99,8 +156,7 @@ function Mobiletokenviw() {
               lineHeight="22.5px"
               fontFamily="Poppins"
             >
-              TacoCoin is a hyper-localized Web3 app built to reward community
-              involvement. Use the app to explore events and...
+              {token_description}
             </Text>
             <Box
               display="flex"
@@ -117,7 +173,7 @@ function Mobiletokenviw() {
                 justifyContent="space-between"
               >
                 <Text>Algo Price:</Text>
-                <Text textAlign="right">0.0000123</Text>
+                <Text textAlign="right">{algoPrice}</Text>
               </Box>
               <Box
                 display="flex"
@@ -125,7 +181,7 @@ function Mobiletokenviw() {
                 justifyContent="space-between"
               >
                 <Text>USD Price:</Text>
-                <Text textAlign="right">0.00001643</Text>
+                <Text textAlign="right">{usdcPrice}</Text>
               </Box>
               <Box
                 display="flex"
@@ -133,30 +189,39 @@ function Mobiletokenviw() {
                 justifyContent="space-between"
               >
                 <Text>24h Change:</Text>
-                <Box display="flex" color="#16C784">
+                <Box
+                  display="flex"
+                  color={algochnage < 1 ? "#ff0000" : "#16C784"}
+                >
                   <ArrowUpIcon
                     transform="rotateZ(45deg)"
                     alignSelf="center"
                     boxSize="1.5em"
                   />
-                  <Text>1.25%</Text>
+                  <Text>{algochnage}%</Text>
                 </Box>
               </Box>
-              <Text color="#fff">Votes: 125</Text>
-              <Text color="#fff">24h Votes: 125</Text>
+              <Box color="#fff" display="flex" justifyContent="space-between">
+                <Text>Votes: </Text>
+                <Text>{vote}</Text>
+              </Box>
+              <Box display="flex" justifyContent="space-between">
+                <Text color="#fff">Daily Votes:</Text>
+                <Text>{votes24h}</Text>
+              </Box>
             </Box>
           </Grid>
-          <Box
-            w="100%"
-            h="200px"
-            bg="#000"
-            mb={5}
-            borderRadius="5px"
-            color="#fff"
-            display="grid"
-            placeContent="center"
-          >
-            MAP HERE
+          <Box w="100%" h="300px" mb={5} borderRadius="5px">
+            <ChartComponent
+              token={token_asa}
+              colors={{
+                backgroundColor: "black",
+                lineColor: "#2962FF",
+                textColor: "white",
+                areaTopColor: "#2962FF",
+                areaBottomColor: "rgba(41, 98, 255, 0.28)",
+              }}
+            />
           </Box>
           <Box
             w="100%"
@@ -165,6 +230,7 @@ function Mobiletokenviw() {
             gap="5"
             alignItems="center"
             mb={5}
+            mt={5}
           >
             <Text
               w="80%"
@@ -176,7 +242,12 @@ function Mobiletokenviw() {
               fontSize="1.1rem"
               color="#fff"
             >
-              <Link href="">Purchase Tacocoin(TACOS)</Link>
+              <Link
+                href={`https://app.tinyman.org/#/swap?asset_in=${token_asa}`}
+                target="_blank"
+              >
+                {`Purchase ${token_name}(${token_symbol})`}
+              </Link>
             </Text>
             <Text
               w="80%"
@@ -188,7 +259,9 @@ function Mobiletokenviw() {
               fontSize="1.1rem"
               color="#fff"
             >
-              <Link href="">Website</Link>
+              <Link href={token_website_url || ""} target="_blank">
+                Website
+              </Link>
             </Text>
             <Text
               w="80%"
@@ -199,19 +272,24 @@ function Mobiletokenviw() {
               h="40px"
               fontSize="1.1rem"
               color="#fff"
+              onClick={(e) => copy(token_asa)}
             >
               <Link href="">Token ASA</Link>
             </Text>
           </Box>
           <Box w="100%" bg="#4C5C75" borderRadius="1px" h="1px" mb="5"></Box>
 
-          <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
+          <Box display="flex" flexDir="column" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Total Supply:</Text>
-            <Text color="#A1A1A1">10,000,000.000 Tacos</Text>
+            <Text color="#A1A1A1">
+              {tokenInfo?.supply} {tokenInfo?.ticker}
+            </Text>
           </Box>
-          <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
+          <Box display="flex" flexDir="column" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Circulating Supply:</Text>
-            <Text color="#A1A1A1">9,999,999.029 Tacos</Text>
+            <Text color="#A1A1A1">
+              {tokenInfo?.circulating_supply} {tokenInfo?.ticker}
+            </Text>
           </Box>
           <Box
             display="flex"
@@ -221,7 +299,12 @@ function Mobiletokenviw() {
             fontSize="1.1rem"
           >
             <Text color="#E5E5E5">Token in circulation after</Text>
-            <Text color="#fff">100.00%</Text>
+            <Text color="#fff">
+              {parseInt(
+                (tokenInfo?.circulating_supply / tokenInfo?.supply) * 100
+              )}
+              %
+            </Text>
           </Box>
           <Progress
             colorScheme="green"
@@ -234,26 +317,24 @@ function Mobiletokenviw() {
           </Text>
           <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Token Role:</Text>
-            <Text color="#A1A1A1">Payment/Rewards</Text>
+            <Text color="#A1A1A1">{token_role || "Not Available"}</Text>
           </Box>
           <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Categories:</Text>
-            <Text color="#A1A1A1">None</Text>
+            <Text color="#A1A1A1">{token_categories || "No Categories"}</Text>
           </Box>
           <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Partnership:</Text>
-            <Text color="#A1A1A1">None</Text>
+            <Text color="#A1A1A1">{token_partnerships || "None"}</Text>
           </Box>
           <Box display="flex" flexWrap="wrap" gap="2" fontSize="1.1rem">
             <Text color="#E5E5E5">Token Type:</Text>
-            <Text color="#A1A1A1">Algorand ASA</Text>
+            <Text color="#A1A1A1">{token_type || "None"}</Text>
           </Box>
           <Box display="flex" flexWrap="wrap" fontSize="1.1rem">
             <Text color="#E5E5E5">About:</Text>
             <Text color="#A1A1A1">
-              Tacocoin is the first of its kind on Algorand… allowing users to
-              purchase world renowned tacos with the token, and rewarding loyal
-              customers…
+              {`${token_description.slice(0, 120)}...`}
             </Text>
           </Box>
           <Box
@@ -268,43 +349,73 @@ function Mobiletokenviw() {
             Socials:
           </Text>
           <Box display="flex" gap={2} mb={5} mt={2}>
-            <Image
-              width={"30px"}
-              height="30px"
-              style={{ borderRadius: "50%" }}
-              src={tgimg}
-            />
-            <Image
-              width={"30px"}
-              height="30px"
-              style={{ borderRadius: "50%" }}
-              src={twtimg}
-            />
-            <Image
-              width={"30px"}
-              height="30px"
-              style={{ borderRadius: "50%" }}
-              src={ytimg}
-            />
-            <Image
-              width={"30px"}
-              height="30px"
-              style={{ borderRadius: "50%" }}
-              src={fbimg}
-            />
-            <Image
-              width={"30px"}
-              height="30px"
-              style={{ borderRadius: "50%" }}
-              src={pintimg}
-            />
+            {token_telegram_url && (
+              <Link href={token_telegram_url || ""} target="_blank">
+                <SocialIcon network="telegram" />
+              </Link>
+            )}
+            {token_twitter_url && (
+              <Link href={token_twitter_url || ""} target="_blank">
+                <SocialIcon network="twitter" />
+              </Link>
+            )}
+            {token_youtube_url && (
+              <Link href={token_youtube_url || ""} target="_blank">
+                <SocialIcon network="youtube" />
+              </Link>
+            )}
+            {token_facebook_url && (
+              <Link href={token_facebook_url || ""} target="_blank">
+                <SocialIcon network="facebook" />
+              </Link>
+            )}
+            {token_pinterest_url && (
+              <Link href={token_pinterest_url} target="_blank">
+                <SocialIcon network="pinterest" />
+              </Link>
+            )}
           </Box>
-          <Box display="flex" gap={2} mb={5} mt={2}>
-            <StarIcon color="#DD821F" />
-            <StarIcon color="#DD821F" />
-            <StarIcon color="#DD821F" />
-            <StarIcon color="#DD821F" />
-            <StarIcon bg="#fff" />
+          <Box display="flex" justifyContent="space-between">
+            <Box>
+              <Text color="#fff">RATINGS</Text>
+              <Box display="flex" gap={2} mb={5} mt={2}>
+                <StarIcon color={allCoinRating > 0 ? "#DD821F" : "#fff"} />
+                <StarIcon color={allCoinRating > 1 ? "#DD821F" : "#fff"} />
+                <StarIcon color={allCoinRating > 2 ? "#DD821F" : "#fff"} />
+                <StarIcon color={allCoinRating > 3 ? "#DD821F" : "#fff"} />
+                <StarIcon color={allCoinRating > 4 ? "#DD821F" : "#fff"} />
+              </Box>
+            </Box>
+            <Box>
+              <Text color="#fff">Your Ratings</Text>
+              <Box display="flex" gap={2} mb={5} mt={2}>
+                <StarIcon
+                  cursor="pointer"
+                  onClick={(e) => myRatings(1)}
+                  color={myrate > 0 ? "#DD821F" : "#fff"}
+                />
+                <StarIcon
+                  cursor="pointer"
+                  onClick={(e) => myRatings(2)}
+                  color={myrate > 1 ? "#DD821F" : "#fff"}
+                />
+                <StarIcon
+                  cursor="pointer"
+                  onClick={(e) => myRatings(3)}
+                  color={myrate > 2 ? "#DD821F" : "#fff"}
+                />
+                <StarIcon
+                  cursor="pointer"
+                  onClick={(e) => myRatings(4)}
+                  color={myrate > 3 ? "#DD821F" : "#fff"}
+                />
+                <StarIcon
+                  cursor="pointer"
+                  onClick={(e) => myRatings(5)}
+                  color={myrate > 4 ? "#DD821F" : "#fff"}
+                />
+              </Box>
+            </Box>
           </Box>
           <Button
             mb={5}
@@ -312,6 +423,7 @@ function Mobiletokenviw() {
             _hover={{ color: "#000" }}
             fontSize="1.5rem"
             color="#fff"
+            onClick={voteToken}
           >
             Vote
           </Button>
@@ -325,26 +437,36 @@ function Mobiletokenviw() {
             flexDir="column"
           >
             <Box maxH="60%" overflowY="scroll">
-              <Box mt="2" mb="2">
-                <Text color="#515B6F">Kelvin19212</Text>
-                <Text color="#c7c7c7">
-                  efpmvpemanbv oidifnv odanonfv odnjfo vnapodnd dofvn oidnfoiv
-                  odnvoifv sdfvSfv svsfvsfv
-                </Text>
-              </Box>
+              {tokenReview.map((v, i) => (
+                <Box
+                  key={i + "desktoptokenview"}
+                  mt="2"
+                  mb="2"
+                  borderBottom="2px solid #ffffff50"
+                >
+                  <Text color="#515B6F">{v?.user_id?.username}</Text>
+                  <Text color="#c7c7c7">{v?.review}</Text>
+                </Box>
+              ))}
             </Box>
-            <Button
-              alignSelf="center"
-              bg="#4C5C75"
-              _hover={{ color: "#c7c7c7" }}
-              color="#fff"
-            >
-              Load more comments
-            </Button>
             <Text fontSize="1.4rem" color="#fff">
               Comment
             </Text>
-            <Textarea bg="#fff" mb={5} resize={"vertical"} />
+            <Textarea
+              bg="#fff"
+              // value={commenVal}
+              onChange={(e) => setCommentVal(e.target.value)}
+              mb={5}
+              resize={"vertical"}
+            />
+            <Button
+              onClick={(e) => {
+                submitReview(commenVal);
+                // setCommentVal("");
+              }}
+            >
+              SUBMIT
+            </Button>
           </Box>
         </Box>
       </Box>

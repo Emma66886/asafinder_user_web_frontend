@@ -380,8 +380,8 @@ function Tokenpage({ token }) {
         >
           <Box
             h="200px"
-            w="500px"
-            inset="25% 30%"
+            w={["300px", "300px", "500px"]}
+            inset={["30% 10%", "25% 30%"]}
             borderRadius="10px"
             position="fixed"
             bg="#fff"

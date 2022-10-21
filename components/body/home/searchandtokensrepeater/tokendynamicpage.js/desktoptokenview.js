@@ -210,7 +210,12 @@ export default function Desktoptokenview({
           textAlign="center"
           fontSize="0.8em"
         >
-          Purchase {token_name}({token_symbol})
+          <Link
+            href={`https://app.tinyman.org/#/swap?asset_in=${token_asa}`}
+            target="_blank"
+          >
+            {`Purchase ${token_name}(${token_symbol})`}
+          </Link>
         </Box>
         <Box
           bg="#4C5C75"
@@ -479,14 +484,6 @@ export default function Desktoptokenview({
               </Box>
             ))}
           </Box>
-          {/* <Button
-            alignSelf="center"
-            bg="#4C5C75"
-            _hover={{ color: "#c7c7c7" }}
-            color="#fff"
-          >
-            Load more comments
-          </Button> */}
           <Text fontSize="1.4rem" color="#fff">
             Comment
           </Text>

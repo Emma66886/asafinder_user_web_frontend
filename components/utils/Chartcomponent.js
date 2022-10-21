@@ -81,6 +81,7 @@ export default function ChartComponent(props) {
     // <Skeleton w="100%" h="100%" isLoaded={data.length > 0}>
     <Box
       ref={chartContainerRef}
+      borderRadius="10px"
       style={{ borderRadius: "10px" }}
       w="100%"
       h="100%"
