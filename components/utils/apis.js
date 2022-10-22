@@ -31,6 +31,7 @@ export async function getTokenPrices(token_asa) {
     return { algotokenPriceData, usdAlgoTokenPriceData };
   } catch (e) {
     console.log(e);
+    return null;
   }
 }
 
