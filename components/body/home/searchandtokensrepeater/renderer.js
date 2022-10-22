@@ -16,7 +16,7 @@ import axios from "axios";
 import { getAllTokensData } from "../../../utils/apis";
 
 export default function RendersearchandReapeter({ tokens }) {
-  const [updatedTokens, setUpdatedTokens] = useState([]);
+  const [updatedTokens, setUpdatedTokens] = useState(tokens);
   let stopUseEffect = useRef(false);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const pagnate = () => {};
@@ -48,16 +48,16 @@ export default function RendersearchandReapeter({ tokens }) {
     );
   };
 
-  useEffect(() => {
-    if (stopUseEffect.current === false) {
-      getAllCoins();
-    }
-    stopUseEffect.current = true;
+  // useEffect(() => {
+  //   if (stopUseEffect.current === false) {
+  //     getAllCoins();
+  //   }
+  //   stopUseEffect.current = true;
 
-    getFullTokenData().then((r) => {
-      setUpdatedTokens((v) => r);
-    });
-  }, [tokens]);
+  //   // getFullTokenData().then((r) => {
+  //   //   setUpdatedTokens((v) => r);
+  //   // });
+  // }, [tokens]);
   return (
     <>
       {isLargerThan700 && (
@@ -82,7 +82,7 @@ export default function RendersearchandReapeter({ tokens }) {
             borderColor="#000"
             borderRadius="5px"
             placeholder="Search Token..."
-            color="rgba(242, 242, 242, 0.46)"
+            color="#000"
           />
           <Button
             _hover={{ color: "#000", bg: "#fff" }}

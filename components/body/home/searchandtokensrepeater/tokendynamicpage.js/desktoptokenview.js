@@ -116,10 +116,7 @@ export default function Desktoptokenview({
               <Image
                 height={"60px"}
                 w={"60px"}
-                src={
-                  token_logo[0] ||
-                  "https://pbs.twimg.com/profile_images/1443915582668218380/ipdsvtYK_400x400.jpg"
-                }
+                src={token_logo ?? token_logo[0]}
               />
               <Text
                 p="2"

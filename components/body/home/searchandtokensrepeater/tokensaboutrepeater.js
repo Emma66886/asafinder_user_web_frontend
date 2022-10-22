@@ -25,7 +25,7 @@ import Link from "next/link";
 
 export default function Tokensaboutrepeater({ item }) {
   const {
-    token_logo,
+    token_logo = [],
     token_name,
     token_symbol,
     token_description,

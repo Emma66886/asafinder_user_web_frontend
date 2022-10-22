@@ -6,22 +6,22 @@ import RendersearchandReapeter from "./searchandtokensrepeater/renderer";
 import Image from "next/image";
 import axios from "axios";
 import { backendurl } from "../../utils/apihelpers";
-export default function Homebody() {
-  const [tokens, setTokens] = useState([]);
-  useEffect(() => {
-    axios
-      .get(backendurl + "api/coins")
-      .then((re) => {
-        console.log(re.data.data);
-        setTokens((v) => re.data.data);
-      })
-      .catch((e) => console.log(e));
-    // axios({
-    //     method:'get',
-    //     url:'/api/coins/status?active=true',
-    //     headers: {"Authorization": `Bearer ${process.env.REACT_APP_AUTH}`}
-    // }).then((re)=>{console.log(re);}).catch(e=>console.log(e))
-  }, []);
+export default function Homebody({ tokens }) {
+  // const [tokens, setTokens] = useState([]);
+  // useEffect(() => {
+  //   // axios
+  //   //   .get(backendurl + "api/coins")
+  //   //   .then((re) => {
+  //   //     console.log(re.data.data);
+  //   //     setTokens((v) => re.data.data);
+  //   //   })
+  //   //   .catch((e) => console.log(e));
+  //   // axios({
+  //   //     method:'get',
+  //   //     url:'/api/coins/status?active=true',
+  //   //     headers: {"Authorization": `Bearer ${process.env.REACT_APP_AUTH}`}
+  //   // }).then((re)=>{console.log(re);}).catch(e=>console.log(e))
+  // }, []);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   return (
     <>
