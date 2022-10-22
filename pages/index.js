@@ -37,17 +37,11 @@ const getTokens = async (tokens, data = []) => {
 };
 
 export async function getStaticProps(context) {
-  try {
-    const coins = await axios.get(backendurl + "api/coins");
-    const refinedTokens = await getTokens(coins.data.data);
-    console.log({ refinedTokens });
-    return {
-      props: { tokens: refinedTokens }, // will be passed to the page component as props
-      revalidate: 100,
-    };
-  } catch (e) {
-    return {
-      props: { tokens: [] },
-    };
-  }
+  const coins = await axios.get(backendurl + "api/coins");
+  const refinedTokens = await getTokens(coins.data.data);
+  console.log({ refinedTokens });
+  return {
+    props: { tokens: refinedTokens }, // will be passed to the page component as props
+    revalidate: 100,
+  };
 }
